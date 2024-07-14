@@ -63,14 +63,15 @@ namespace Application.UseCase.Pedidos
                     throw new Exception("Cliente inválido");
             }
 
-            var pedidoProdutos = pedidoDto.Produtos.Select(x =>
+            var pedidoProdutos = new List<PedidoProduto>();
+            pedidoDto.Produtos.Select(async x =>
             {
-                var produto = _produtoRepository.ObterProdutoPorId(x.ProdutoId).GetAwaiter().GetResult();
+                var produto = await _produtoRepository.ObterPorId(x.ProdutoId);
 
                 if (produto == null)
                     throw new Exception($"ProdutoId {x.ProdutoId} inválido");
 
-                return new PedidoProduto(x.ProdutoId, x.Quantidade, x.Observacao, produto);
+                pedidoProdutos.Add(new PedidoProduto(x.ProdutoId, x.Quantidade, x.Observacao, produto));
             })
             .ToList();
 

@@ -6,11 +6,11 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProdutosController : ControllerBase
+    public class ProdutoController : ControllerBase
     {
         private readonly IProdutosUseCase _produtosUseCase;
 
-        public ProdutosController(IProdutosUseCase produtosUseCase)
+        public ProdutoController(IProdutosUseCase produtosUseCase)
         {
             _produtosUseCase = produtosUseCase;
         }
@@ -43,22 +43,22 @@ namespace Api.Controllers
             }
             catch (Exception ex) 
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }          
         }
         
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Patch([FromBody] AtualizarProdutoDto produto)
+        public async Task<IActionResult> Patch([FromBody] AtualizarProdutoDto produto, long id)
         {
             try
             {
-                await _produtosUseCase.Atualizar(produto);
+                await _produtosUseCase.Atualizar(produto, id);
 
                 return Ok();
             }             
             catch (Exception ex) 
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             } 
         }
         
@@ -73,7 +73,7 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }           
         }
     }

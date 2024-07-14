@@ -4,6 +4,5 @@
     {
         public string Descricao { get; set; }
         public decimal Valor { get; set; }
-        public CategoriaDto Categoria { get; set; }
     }
 }

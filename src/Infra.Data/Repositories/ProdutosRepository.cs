@@ -8,15 +8,14 @@ namespace Infra.Data.Repositories
     public class ProdutosRepository : IProdutosRepository
     {
         private readonly TechChallengeContext _context;
-
         public ProdutosRepository(TechChallengeContext context)
         {
             _context = context;
         }
 
-        public async Task<Produto> ObterProdutoPorId(long id) => await _context.Produto.FirstOrDefaultAsync(x => x.Id == id);
-        public async Task<List<Produto>> ListarProdutos() => await _context.Produto.Include(x => x.Categoria).ToListAsync();
-        public async Task<Produto> InserirProdutos(Produto produto)
+        public async Task<Produto> ObterPorId(long id) => await _context.Produto.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<List<Produto>> Listar() => await _context.Produto.Include(x => x.Categoria).ToListAsync();
+        public async Task<Produto> Inserir(Produto produto)
         {
             if (produto is null)
             {
@@ -28,7 +27,7 @@ namespace Infra.Data.Repositories
             return produto;
         }
 
-        public async Task<Produto> AtualizarProdutos(Produto produto)
+        public async Task<Produto> Atualizar(Produto produto)
         {
             _context.Produto.Entry(produto);          
             _context.Produto.Update(produto);
@@ -36,12 +35,13 @@ namespace Infra.Data.Repositories
             return produto;
         }
 
-        public async Task ExcluirProdutos(long id)
-        {
-            var entidade = _context.Produto.Find(id);
-            
-            if(entidade is not null)
-                _context.Produto.Remove(entidade);
+        public async Task Excluir(Produto produto)
+        {           
+            if (produto is not null)
+            {
+                _context.Produto.Entry(produto).State = EntityState.Deleted;
+                _context.Produto.Remove(produto);
+            }
 
             await _context.SaveChangesAsync();           
         }

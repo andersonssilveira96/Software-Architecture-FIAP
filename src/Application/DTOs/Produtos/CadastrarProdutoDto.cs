@@ -2,5 +2,6 @@
 {
     public class CadastrarProdutoDto : ProdutoBaseDto
     {
+        public int CategoriaId { get; set; }
     }
 }

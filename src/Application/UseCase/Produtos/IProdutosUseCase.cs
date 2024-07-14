@@ -8,7 +8,7 @@ namespace Application.UseCase.Produtos
         Task<List<ProdutoDto>> Listar();
         Task<List<ProdutoDto>> ListarPorCategoria(long idCategoria);
         Task<ProdutoDto> Cadastrar(CadastrarProdutoDto produto);
-        Task<ProdutoDto> Atualizar(AtualizarProdutoDto produto);
+        Task<ProdutoDto> Atualizar(AtualizarProdutoDto produto, long id);
         Task Excluir(long id);
     }
 }
