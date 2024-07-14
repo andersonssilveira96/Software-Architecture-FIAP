@@ -24,6 +24,9 @@ namespace Domain.Entities
             if (!Cpf.EhValido()) 
                 throw new Exception("CPF inválido");
 
+            if (!Email.EhValido())
+                throw new Exception("Email inválido");
+
             return true;
         }
     }

@@ -28,15 +28,16 @@ namespace Application.UseCase.Clientes
                 await _repository.Inserir(cliente);
             }
 
-            return new Result() { Mensagem = "Cliente cadastrad com sucesso", Sucesso = true };
+            return new Result() { Mensagem = "Cliente cadastrado com sucesso", Sucesso = true };
         }
 
         public async Task<ClienteDto> Obter(string cpf)
         {
-            if (!new CPF(cpf).EhValido())
+            var cpfValueObject = new CPF(cpf);
+            if (!cpfValueObject.EhValido())
                 throw new Exception("CPF inválido");
 
-            return _mapper.Map<ClienteDto>(await _repository.ObterPorCPF(cpf));
+            return _mapper.Map<ClienteDto>(await _repository.ObterPorCPF(cpfValueObject.Numero));
         }
     }
 }
