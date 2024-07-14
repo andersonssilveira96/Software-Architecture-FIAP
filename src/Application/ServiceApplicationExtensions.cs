@@ -1,5 +1,8 @@
-﻿using Application.DTOs;
-using Application.UseCase;
+﻿using Application.DTOs.Clientes;
+using Application.DTOs.Pedido;
+using Application.DTOs.Produtos;
+using Application.UseCase.Clientes;
+using Application.UseCase.Pedidos;
 using Application.UseCase.Produtos;
 using AutoMapper;
 using Domain.Entities;
@@ -19,11 +22,22 @@ namespace Application
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<PedidoProdutoBaseDto, PedidoProduto>().ReverseMap();
+                // Categoria
+                cfg.CreateMap<CategoriaDto, Categoria>().ReverseMap();
+
+                // Produtos
+                cfg.CreateMap<ProdutoDto, Produto>().ReverseMap();
+                cfg.CreateMap<CadastrarProdutoDto, Produto>().ReverseMap();
+                cfg.CreateMap<AtualizarProdutoDto, Produto>().ReverseMap();
+
+                // Clientes
+                cfg.CreateMap<ClienteDto, ClienteBaseDto>().ReverseMap();
                 cfg.CreateMap<ClienteDto, Cliente>().ReverseMap()
                     .ForMember(x => x.Email, opt => opt.MapFrom(u => u.Email.Valor))
                     .ForMember(x => x.Cpf, opt => opt.MapFrom(u => u.Cpf.Numero));
 
+                // Pedidos
+                cfg.CreateMap<PedidoProdutoBaseDto, PedidoProduto>().ReverseMap();
                 cfg.CreateMap<PedidoProdutoDto, PedidoProduto>().ReverseMap()
                         .ForMember(x => x.Nome, opt => opt.MapFrom(u => u.Produto.Descricao))
                         .ForMember(x => x.ValorUnitario, opt => opt.MapFrom(u => u.Produto.Valor));

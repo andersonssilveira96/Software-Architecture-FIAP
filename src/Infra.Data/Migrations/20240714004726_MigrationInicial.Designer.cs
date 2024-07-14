@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infra.Data.Migrations
 {
     [DbContext(typeof(TechChallengeContext))]
-    [Migration("20240515003957_PrimeiraMigration")]
-    partial class PrimeiraMigration
+    [Migration("20240714004726_MigrationInicial")]
+    partial class MigrationInicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,7 +72,7 @@ namespace Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -93,13 +93,16 @@ namespace Infra.Data.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("ValorTotal")
                         .HasColumnType("numeric");
+
+                    b.Property<bool>("Viagem")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -114,9 +117,6 @@ namespace Infra.Data.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<long>("PedidoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("Id")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Observacao")

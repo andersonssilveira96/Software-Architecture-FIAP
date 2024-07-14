@@ -1,8 +1,5 @@
-﻿using Application.DTOs;
-using Application.UseCase;
-using Domain.Entities;
-using Domain.Enums;
-using Microsoft.AspNetCore.Http;
+﻿using Application.DTOs.Pedido;
+using Application.UseCase.Pedidos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -51,7 +48,7 @@ namespace Api.Controllers
         {
             try
             {
-                return Ok(await _pedidoUseCase.AtualizarStatus(id, (StatusEnum)status));
+                return Ok(await _pedidoUseCase.AtualizarStatus(id, status));
             }
             catch (Exception ex)
             {

@@ -1,6 +1,5 @@
-﻿using Application.UseCase.Produtos;
-using Domain.Entities;
-using Domain.Repositories;
+﻿using Application.DTOs.Produtos;
+using Application.UseCase.Produtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -15,7 +14,6 @@ namespace Api.Controllers
         {
             _produtosUseCase = produtosUseCase;
         }
-
         
         [HttpGet]
         public async Task<IActionResult> ListarProdutos()
@@ -33,32 +31,50 @@ namespace Api.Controllers
 
             return Ok(produtosCategoria);
         }
-
         
         [HttpPost]
-        public async Task<IActionResult> Cadastrar(Produto produto)
+        public async Task<IActionResult> Cadastrar(CadastrarProdutoDto produto)
         {
-            await _produtosUseCase.Cadastrar(produto);
+            try
+            {
+                await _produtosUseCase.Cadastrar(produto);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest(ex);
+            }          
         }
-
         
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Patch([FromBody] Produto produto)
+        public async Task<IActionResult> Patch([FromBody] AtualizarProdutoDto produto)
         {
-            await _produtosUseCase.Atualizar(produto);
+            try
+            {
+                await _produtosUseCase.Atualizar(produto);
 
-            return Ok();
+                return Ok();
+            }             
+            catch (Exception ex) 
+            {
+                return BadRequest(ex);
+            } 
         }
-
         
         [HttpDelete("{id}")]
         public async Task<IActionResult> Remover(long id)
         {
-            await _produtosUseCase.Excluir(id);
+            try
+            {
+                await _produtosUseCase.Excluir(id);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }           
         }
     }
 }

@@ -1,11 +1,10 @@
-﻿using Application.DTOs;
+﻿using Application.DTOs.Pedido;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Repositories;
-using System;
 
-namespace Application.UseCase
+namespace Application.UseCase.Pedidos
 {
     public class PedidoUseCase : IPedidoUseCase
     {
@@ -26,24 +25,28 @@ namespace Application.UseCase
         {
             var pedido = await _repository.ObterPorId(id);
 
-            if(pedido is null) throw new Exception($"PedidoId {id} inválido");
+            if (pedido is null)
+                throw new Exception($"PedidoId {id} inválido");
 
             pedido.AtualizarStatus(StatusEnum.Recebido);
 
             return _mapper.Map<PedidoDto>(await _repository.Atualizar(pedido));
         }
 
-        public async Task<PedidoDto> AtualizarStatus(long id, StatusEnum status)
+        public async Task<PedidoDto> AtualizarStatus(long id, int status)
         {
             var pedido = await _repository.ObterPorId(id);
 
-            if (pedido is null) throw new Exception($"PedidoId {id} inválido");
+            if (pedido is null)
+                throw new Exception($"PedidoId {id} inválido");
 
-            if (pedido.Status > status) throw new Exception($"Status não pode retroceder");
+            if (!Enum.IsDefined(typeof(StatusEnum), status))
+                throw new Exception($"Status {status} inválido");
 
-            if (!Enum.IsDefined(typeof(StatusEnum), status)) throw new Exception($"Status {status} inválido");
+            if (pedido.Status > (StatusEnum)status)
+                throw new Exception($"Status não pode retroceder");
 
-            pedido.AtualizarStatus(status);
+            pedido.AtualizarStatus((StatusEnum)status);
 
             return _mapper.Map<PedidoDto>(await _repository.Atualizar(pedido));
         }
@@ -52,18 +55,20 @@ namespace Application.UseCase
         {
             Cliente cliente = null;
 
-            if(pedidoDto.ClienteId.HasValue && pedidoDto.ClienteId.Value > 0)
+            if (pedidoDto.ClienteId.HasValue && pedidoDto.ClienteId.Value > 0)
             {
                 cliente = await _clienteRepository.ObterPorId(pedidoDto.ClienteId.Value);
-                
-                if(cliente == null) throw new Exception("Cliente inválido");
-            }               
+
+                if (cliente == null)
+                    throw new Exception("Cliente inválido");
+            }
 
             var pedidoProdutos = pedidoDto.Produtos.Select(x =>
             {
                 var produto = _produtoRepository.ObterProdutoPorId(x.ProdutoId).GetAwaiter().GetResult();
 
-                if (produto == null) throw new Exception($"ProdutoId {x.ProdutoId} inválido");
+                if (produto == null)
+                    throw new Exception($"ProdutoId {x.ProdutoId} inválido");
 
                 return new PedidoProduto(x.ProdutoId, x.Quantidade, x.Observacao, produto);
             })

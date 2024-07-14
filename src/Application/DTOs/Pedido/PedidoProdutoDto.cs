@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs
+﻿namespace Application.DTOs.Pedido
 {
     public class PedidoProdutoDto : PedidoProdutoBaseDto
     {

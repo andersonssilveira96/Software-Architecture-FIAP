@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.DTOs.Produtos;
+using AutoMapper;
 using Domain.Entities;
 using Domain.Repositories;
 
@@ -11,35 +8,40 @@ namespace Application.UseCase.Produtos
     public class ProdutosUseCase : IProdutosUseCase
     {
         private readonly IProdutosRepository _produtosRepository;
+        private readonly IMapper _mapper;
 
-        public ProdutosUseCase(IProdutosRepository produtosRepository)
+        public ProdutosUseCase(IProdutosRepository produtosRepository, IMapper mapper)
         {
             _produtosRepository = produtosRepository;
+            _mapper = mapper;
         }
 
-        public async Task<Produto> Obter(long id)
+        public async Task<ProdutoDto> Obter(long id)
         {
-            return await _produtosRepository.ObterProdutoPorId(id);
+            return _mapper.Map<ProdutoDto>(await _produtosRepository.ObterProdutoPorId(id));
         }
 
-        public async Task<List<Produto>> Listar()
+        public async Task<List<ProdutoDto>> Listar()
         {
-            return await _produtosRepository.ListarProdutos();
+            return _mapper.Map<List<ProdutoDto>>(await _produtosRepository.ListarProdutos());
         }
 
-        public async Task<List<Produto>> ListarPorCategoria(long idCategoria)
+        public async Task<List<ProdutoDto>> ListarPorCategoria(long idCategoria)
         {
-            return await _produtosRepository.ListarPorCategoria(idCategoria);
+            return _mapper.Map<List<ProdutoDto>>(await _produtosRepository.ListarPorCategoria(idCategoria));
         }
 
-        public async Task<Produto> Cadastrar(Produto produto)
+        public async Task<ProdutoDto> Cadastrar(CadastrarProdutoDto cadastrarProdutoDto)
         {
-            return await _produtosRepository.InserirProdutos(produto);
+            var produto = _mapper.Map<Produto>(cadastrarProdutoDto);
+            return _mapper.Map<ProdutoDto>(await _produtosRepository.InserirProdutos(produto));
         }
 
-        public async Task<Produto> Atualizar(Produto produto)
+        public async Task<ProdutoDto> Atualizar(AtualizarProdutoDto atualizarProdutoDto)
         {
-             return await _produtosRepository.AtualizarProdutos(produto);
+            var produto = _mapper.Map<Produto>(atualizarProdutoDto);
+
+            return _mapper.Map<ProdutoDto>(await _produtosRepository.AtualizarProdutos(produto));
         }
 
         public async Task Excluir(long id)
