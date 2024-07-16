@@ -1,8 +1,9 @@
-﻿using Application.DTOs.Pedido;
+﻿using Application.DTOs;
+using Application.DTOs.Pedido;
+using Domain.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
-using Domain.Repositories;
 
 namespace Application.UseCase.Pedidos
 {
@@ -51,7 +52,7 @@ namespace Application.UseCase.Pedidos
             return _mapper.Map<PedidoDto>(await _repository.Atualizar(pedido));
         }
 
-        public async Task<PedidoDto> Inserir(CadastrarPedidoDto pedidoDto)
+        public async Task<Result<object>> Inserir(CadastrarPedidoDto pedidoDto)
         {
             Cliente cliente = null;
 
@@ -63,26 +64,42 @@ namespace Application.UseCase.Pedidos
                     throw new Exception("Cliente inválido");
             }
 
-            var pedidoProdutos = new List<PedidoProduto>();
-            pedidoDto.Produtos.Select(async x =>
+            var pedidoProdutos = pedidoDto.Produtos.Select(x =>
             {
-                var produto = await _produtoRepository.ObterPorId(x.ProdutoId);
+                var produto = _produtoRepository.ObterPorId(x.ProdutoId).GetAwaiter().GetResult();
 
                 if (produto == null)
                     throw new Exception($"ProdutoId {x.ProdutoId} inválido");
 
-                pedidoProdutos.Add(new PedidoProduto(x.ProdutoId, x.Quantidade, x.Observacao, produto));
-            })
-            .ToList();
+                return new PedidoProduto(x.ProdutoId, x.Quantidade, x.Observacao, produto);
+            }).ToList();
 
             var pedido = new Pedido(cliente, pedidoProdutos, pedidoDto.Viagem);
-
-            return _mapper.Map<PedidoDto>(await _repository.Inserir(pedido));
+            var result = await _repository.Inserir(pedido);
+            return new Result<object> { Mensagem = "Pedido cadastrado com sucesso", Dados = new { NumeroPedido = result.Id } };
         }
 
         public async Task<IEnumerable<PedidoDto>> Listar()
         {
-            return _mapper.Map<IEnumerable<PedidoDto>>(await _repository.ListarPedidos());
+            var listaPedidos = await _repository.ListarPedidos();
+
+            var filtrados = listaPedidos
+                                .Where(x => x.Status != StatusEnum.Finalizado)
+                                .OrderByDescending(x => x.Status)
+                                .ThenBy(x => x.DataCriacao)
+                                .ToList();
+
+            return _mapper.Map<IEnumerable<PedidoDto>>(filtrados);
+        }
+
+        public async Task<StatusPagamentoDto> ConsultarStatusPagamento(long id)
+        {
+            var pedido = await _repository.ObterPorId(id);
+
+            if (pedido is null)
+                throw new Exception($"PedidoId {id} inválido");
+
+            return new StatusPagamentoDto() { PagamentoAprovado = (pedido.Status != StatusEnum.PagamentoPendente && pedido.Status != StatusEnum.Cancelado) };
         }
     }
 }

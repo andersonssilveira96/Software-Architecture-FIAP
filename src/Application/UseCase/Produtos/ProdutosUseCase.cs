@@ -1,7 +1,7 @@
 ﻿using Application.DTOs.Produtos;
+using Domain.Repositories;
 using AutoMapper;
 using Domain.Entities;
-using Domain.Repositories;
 
 namespace Application.UseCase.Produtos
 {

@@ -2,6 +2,7 @@
 using Application.DTOs.Pedido;
 using Application.DTOs.Produtos;
 using Application.UseCase.Clientes;
+using Application.UseCase.Pagamentos;
 using Application.UseCase.Pedidos;
 using Application.UseCase.Produtos;
 using AutoMapper;
@@ -18,6 +19,7 @@ namespace Application
         {
             services.AddScoped<IClienteUseCase, ClienteUseCase>();
             services.AddScoped<IPedidoUseCase, PedidoUseCase>();
+            services.AddScoped<IPagamentoUseCase, PagamentoUseCase>();
             services.AddScoped<IProdutosUseCase, ProdutosUseCase>();
 
             var config = new MapperConfiguration(cfg =>

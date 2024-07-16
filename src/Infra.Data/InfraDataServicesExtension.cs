@@ -10,6 +10,7 @@ namespace Infra.Data
         {
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();
+            services.AddScoped<IPagamentoRepository, PagamentoRepository>();
             services.AddScoped<IProdutosRepository, ProdutosRepository>();
             services.AddScoped<ICategoriaRepository, CategoriaRepository>();
             return services;

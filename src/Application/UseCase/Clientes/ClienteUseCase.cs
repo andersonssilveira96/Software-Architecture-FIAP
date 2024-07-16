@@ -1,8 +1,8 @@
 ﻿using Application.DTOs;
 using Application.DTOs.Clientes;
+using Domain.Repositories;
 using AutoMapper;
 using Domain.Entities;
-using Domain.Repositories;
 using Domain.ValueObjects;
 
 namespace Application.UseCase.Clientes
@@ -28,7 +28,7 @@ namespace Application.UseCase.Clientes
                 await _repository.Inserir(cliente);
             }
 
-            return new Result() { Mensagem = "Cliente cadastrado com sucesso", Sucesso = true };
+            return new Result() { Mensagem = "Cliente cadastrado com sucesso" };
         }
 
         public async Task<ClienteDto> Obter(string cpf)
