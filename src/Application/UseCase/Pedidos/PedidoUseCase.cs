@@ -1,9 +1,10 @@
 ﻿using Application.DTOs;
 using Application.DTOs.Pedido;
-using Domain.Repositories;
+using Application.UseCase.Pagamentos;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Repositories;
 
 namespace Application.UseCase.Pedidos
 {
@@ -14,12 +15,15 @@ namespace Application.UseCase.Pedidos
         private readonly IClienteRepository _clienteRepository;
         private readonly IMapper _mapper;
 
-        public PedidoUseCase(IPedidoRepository repository, IProdutosRepository produtoRepository, IClienteRepository clienteRepository, IMapper mapper)
+        private readonly IPagamentoUseCase _pagamentoUseCase;
+
+        public PedidoUseCase(IPedidoRepository repository, IProdutosRepository produtoRepository, IClienteRepository clienteRepository, IMapper mapper, IPagamentoUseCase pagamentoUseCase)
         {
             _repository = repository;
             _produtoRepository = produtoRepository;
             _clienteRepository = clienteRepository;
             _mapper = mapper;
+            _pagamentoUseCase = pagamentoUseCase;
         }
 
         public async Task<PedidoDto> EnviarPagamento(long id)
@@ -75,8 +79,11 @@ namespace Application.UseCase.Pedidos
             }).ToList();
 
             var pedido = new Pedido(cliente, pedidoProdutos, pedidoDto.Viagem);
-            var result = await _repository.Inserir(pedido);
-            return new Result<object> { Mensagem = "Pedido cadastrado com sucesso", Dados = new { NumeroPedido = result.Id } };
+            await _repository.Inserir(pedido);
+
+            var pagamento = await _pagamentoUseCase.GerarPagamento(pedido);            
+   
+            return new Result<object> { Mensagem = "Pedido cadastrado com sucesso", Dados = new { NumeroPedido = pagamento.PedidoId } };
         }
 
         public async Task<IEnumerable<PedidoDto>> Listar()

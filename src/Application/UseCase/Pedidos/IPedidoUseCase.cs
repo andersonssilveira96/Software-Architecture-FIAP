@@ -11,5 +11,6 @@ namespace Application.UseCase.Pedidos
         Task<PedidoDto> AtualizarStatus(long id, int status);
         Task<IEnumerable<PedidoDto>> Listar();
         Task<StatusPagamentoDto> ConsultarStatusPagamento(long id);
+
     }
 }

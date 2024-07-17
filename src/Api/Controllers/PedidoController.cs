@@ -40,21 +40,7 @@ namespace Api.Controllers
             {
                 return BadRequest(new { Mensagem = ex.Message });
             }
-        }
-
-        [HttpPut]
-        [Route("fake-checkout/{id}")]
-        public async Task<IActionResult> EnviarParaPagamento(long id)
-        {
-            try
-            {
-                return Ok(await _pedidoUseCase.EnviarPagamento(id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Mensagem = ex.Message });
-            }
-        }
+        }        
 
         [HttpPut]
         [Route("atualizar-status/{id}/{status}")]

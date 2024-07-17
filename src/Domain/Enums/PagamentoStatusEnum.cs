@@ -3,6 +3,7 @@
     public enum PagamentoStatusEnum
     {
         Pendente,
-        Pago
+        Pago,
+        Rejeitado
     }
 }
