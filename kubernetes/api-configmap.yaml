@@ -8,6 +8,5 @@ data:
   POSTGRES_DB: "techchallenge"
   POSTGRES_USER: "postgres"
   POSTGRES_PASSWORD: "postgres"
-  CONNECTIONSTRING: "Host=database;Port=5432;Database=techchallenge;Username=postgres;Password=postgres;Include Error Detail=true"
-  ASPNETCORE_ENVIRONMENT: "Development"
+
   

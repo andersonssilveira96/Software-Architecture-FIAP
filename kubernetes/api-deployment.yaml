@@ -22,7 +22,9 @@ spec:
             - containerPort: 8081
           env:  
             - name: ASPNETCORE_ENVIRONMENT
-              value: Production           
+              value: Production      
+            - name: ConnectionStrings__Database
+              value: Host=database;Port=5432;Database=techchallenge;Username=postgres;Password=postgres;Include Error Detail=true
           imagePullPolicy: IfNotPresent               
           resources:
             requests:
