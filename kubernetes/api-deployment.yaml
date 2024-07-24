@@ -19,12 +19,15 @@ spec:
         - name: api-container
           image: andssil/techchallenge:latest
           ports:
-            - containerPort: 8081
+            - containerPort: 8080
           env:  
             - name: ASPNETCORE_ENVIRONMENT
               value: Production      
             - name: ConnectionStrings__Database
-              value: Host=database;Port=5432;Database=techchallenge;Username=postgres;Password=postgres;Include Error Detail=true
+              valueFrom: 
+               secretKeyRef:
+                name: api-secret
+                key: connectionString
           imagePullPolicy: IfNotPresent               
           resources:
             requests:
