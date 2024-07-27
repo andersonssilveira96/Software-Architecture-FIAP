@@ -2,6 +2,7 @@
 O principal objetivo deste projeto foi desenvolver uma solucao para gerenciar o cadastro, pedidos, produtos e fila de entrega, sendo um sistema de controle de pedidos.
 
 ## Arquitetura do projeto
+Arquivo "TechChallenge.drawio" na raiz do projeto.
 ![image](https://github.com/user-attachments/assets/c410c3d7-856d-4145-a549-49b4571d2cd8)
 
 ## Iniciar o Projeto
