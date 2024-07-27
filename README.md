@@ -1,8 +1,8 @@
 # 6SOAT-TechChallenge-FIAP
 O principal objetivo deste projeto foi desenvolver uma solucao para gerenciar o cadastro, pedidos, produtos e fila de entrega, sendo um sistema de controle de pedidos.
 
-# Preview
-![Fluxo Principal](https://github.com/PhelipeT2/6SOAT-TechChallenge-FIAP/blob/api-produtos/images/Apis.JPG)
+## Desenho de arquitetura
+![image](https://github.com/user-attachments/assets/c410c3d7-856d-4145-a549-49b4571d2cd8)
 
 ## Iniciar o Projeto
 ----WIP
@@ -10,30 +10,30 @@ Para iniciar o Projeto, é necessário clonar o projeto do GitHub num diretório
 
 ```shell
 cd "diretorio de sua preferencia"
-git clone https://github.com/PhelipeT2/6SOAT-TechChallenge-FIAP.git
+git clone https://github.com/andersonssilveira96/Software-Architecture-FIAP
 ```
 
 ## Tecnologias
 
 Aqui estao as tecnologias usadas nos projeto.
 
-* .Net 8
+* .NET 8
 * C#
 * Docker
 * Postgres
 * DDD
-* Arquitetura Hexagonal
+* Clean Architecture
+* Kubernetes
  
  
 ## Servicos usados
  
 * Github
-* MIro
-* Trello
- 
+* Draw.io
+
+
 ## Versao
 
-1.0.0
-
+2.0.0
  
 Obrigado pela visita e bom codigo!
