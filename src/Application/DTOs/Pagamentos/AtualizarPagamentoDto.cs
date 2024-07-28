@@ -2,7 +2,7 @@
 {
     public class AtualizarPagamentoDto
     {
-        public Guid NumeroPagamento { get; set; }
+        public long NumeroPedido { get; set; }
         public bool Aprovado { get; set; }
     }
 }

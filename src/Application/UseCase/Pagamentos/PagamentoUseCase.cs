@@ -1,5 +1,4 @@
 ﻿using Application.DTOs.Pagamentos;
-using Application.UseCase.Pedidos;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Interfaces;
@@ -21,7 +20,7 @@ namespace Application.UseCase.Pagamentos
 
         public async Task<Pagamento> AtualizarPagamento(AtualizarPagamentoDto atualizarPagamentoDto)
         {
-            var pagamento = await _pagamentoRepository.ObterPorGUID(atualizarPagamentoDto.NumeroPagamento);
+            var pagamento = await _pagamentoRepository.ObterPorPedidoId(atualizarPagamentoDto.NumeroPedido);
 
             if (pagamento is null) throw new Exception("Número de pagamento inválido");
 
