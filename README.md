@@ -6,6 +6,7 @@ Arquivo "TechChallenge.drawio" na raiz do projeto para download caso necessário
 ![image](https://github.com/user-attachments/assets/c410c3d7-856d-4145-a549-49b4571d2cd8)
 
 ## Tela inicial
+Para acessarmos a tela do Swagger basta digitar "/swagger" na url em que abrir a aplicação, caso suba em "https://localhost:5001", basta inserir no navegador "https://localhost:5001/swagger" 
 ![image](https://github.com/user-attachments/assets/ebf26ce8-0f5d-4341-9358-e655dd904d6d)
 
 ## Video do projeto
