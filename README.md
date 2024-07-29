@@ -8,6 +8,9 @@ Arquivo "TechChallenge.drawio" na raiz do projeto para download caso necessário
 ## Tela inicial
 ![image](https://github.com/user-attachments/assets/ebf26ce8-0f5d-4341-9358-e655dd904d6d)
 
+## Video do projeto
+https://youtu.be/FPk4jG4viyI
+
 ## Iniciar o Projeto
 Para iniciar o Projeto, é necessário clonar o projeto do GitHub num diretório de sua preferência:
 
